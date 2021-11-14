@@ -2,7 +2,9 @@ Shader "Hidden/DitherShader"
 {
     Properties
     {
-    	_MainTex ("DitherPattern", 2D) = "white" {}
+      _MainTex ("MainTex", 2D) = "white" {}     
+    	_DitherPattern ("DitherPattern", 2D) = "white" {}
+        _DitherPattern_TexelSize ("Size", Float) = 0.1
     }
     SubShader
     {
@@ -17,8 +19,9 @@ Shader "Hidden/DitherShader"
 
             #include "UnityCG.cginc"
 
+            uniform sampler2D _DitherPattern;
             uniform sampler2D _MainTex;
-            float4 _DitherPattern_TexelSize;
+            uniform float4 _DitherPattern_TexelSize;
 
             struct v2f
             {
@@ -50,10 +53,10 @@ Shader "Hidden/DitherShader"
                 
                 // just invert the colors
                 //col.rgb = 1 - col.rgb;
-              float2 screenPos = i.screenPos.xy / i.screenPos.w;
-              float2 ditherCoordinate = screenPos * _ScreenParams.xy * _DitherPattern_TexelSize;
-              float ditherValue = tex2D(_MainTex, ditherCoordinate).r;
-              return col;
+              float2 ditherCoordinate = i.screenPos * _ScreenParams.xy * 0.05;
+              float ditherValue = tex2D(_DitherPattern, ditherCoordinate);
+              fixed4 outCol = LinearRgbToLuminance(col) < ditherValue ? 0.0 : 1.0;
+              return outCol;
             }
             ENDCG
         }
