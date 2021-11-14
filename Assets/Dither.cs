@@ -6,12 +6,10 @@ using UnityEngine;
 public class Dither : MonoBehaviour
 {
 	public Material mat;
+	public Color[] colors ;
 	void Awake()
 	{
-          //if (!mat)
-          //{
-              //		mat = new Material(Shader.Find("Hidden/DitherShader"));
-          //}
+         mat.SetColorArray("_DitherColors", colors);
 	}
     void OnRenderImage(RenderTexture source, RenderTexture dest)
     {
