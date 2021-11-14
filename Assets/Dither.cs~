@@ -1,0 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[ExecuteInEditMode]
+public class Dither : MonoBehaviour
+{
+	private Material mat;
+	void Awake()
+	{
+		mat = new Material(Shader.Find("Hidden/Dither Shader"));
+	}
+    void OnRenderImage(RenderTexture source, RenderTexture dest)
+    {
+    	Graphics.Blit(source, dest, mat);
+    }
+}
