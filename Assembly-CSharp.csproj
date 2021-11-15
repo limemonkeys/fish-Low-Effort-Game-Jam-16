@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{CAC9AE2A-9159-10BB-6D79-9D88D409D319}</ProjectGuid>
+    <ProjectGuid>{522F51AD-EE76-F933-AC43-D3CDB5EA581B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -55,6 +55,11 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\UI_Drag.cs" />
     <Compile Include="Assets\Scripts\QT_Event.cs" />
+    <Compile Include="Assets\Dither.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Materials\DitherShader.shader" />
+    <None Include="Assets\Materials\NewImageEffectShader.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
