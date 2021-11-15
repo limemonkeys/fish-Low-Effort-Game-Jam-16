@@ -66,9 +66,9 @@ Shader "Hidden/DitherShader"
                       closestCol = c;
                     }                  
                     }*/
-              float2 ditherCoordinate = i.screenPos * _ScreenParams.xy * 0.05;
+              float2 ditherCoordinate = i.screenPos * _ScreenParams.xy * 0.003;
               float ditherValue = tex2D(_DitherPattern, ditherCoordinate);
-              fixed4 outCol = LinearRgbToLuminance(col) < ditherValue ? 0.0 : col;
+              fixed4 outCol = LinearRgbToLuminance(col) < ditherValue - 0.1 ? 0.0 : col * 1.4;
 
               return outCol;
             }
