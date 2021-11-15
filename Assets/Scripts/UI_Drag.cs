@@ -13,9 +13,12 @@ public class UI_Drag : MonoBehaviour
     private float reelInnerRadius;
     private float reelOuterRadius;
     private Vector3 previousPosition;
+    private float coolDown;
     public float ReelPoints;
     public float fishStrength;
 
+    public Rigidbody bobber;
+    private int fishCount;
 
     public float fillAmount = 0;
     public float timeThreshold = 0;
@@ -28,14 +31,42 @@ public class UI_Drag : MonoBehaviour
         reelInnerRadius = ReelInner.GetComponent<RectTransform>().rect.width / 2;
         reelOuterRadius = ReelOuter.GetComponent<RectTransform>().rect.width / 2;
         centerPosition = ReelInner.GetComponent<RectTransform>().position;
+        coolDown = 0.0f;
+        fishCount = 0;
+    }
+    void CatchFish()
+    {
+    	print("caught");
+    	ReelPoints = 0.0f;
+    	bobber.position = new Vector3(-3.82f,1.13f,-2.980f);
+    	bobber.velocity = new Vector3(0.0f,0.0f,0.0f);
+    	coolDown = 3.0f;
+    	fishCount++;
+    	print(fishCount + " Fishes caught!");
+    	if (fishCount == 3) {
+    		print("SHARK JUMPSCARE");
+    	}
     }
 
     // Update is called once per frame
     void Update()
     {
+    	if (coolDown > 0.0f)
+    	{
+    		coolDown -= Time.deltaTime;
+    		return;
+    	}
+    	if (ReelPoints >= 1.0f)
+    	{
+    		CatchFish();
+    	}
         previousPosition = this.GetComponent<RectTransform>().position;
         if (startDrag)
         {
+        	if (ReelPoints == 0.0f)
+        	{
+        		bobber.AddForce(new Vector3(-0.5f, 0.5f, 0.0f),ForceMode.Impulse);
+        	}
             Vector3 newLocation = Input.mousePosition;
 
             float distance = Vector3.Distance(newLocation, centerPosition);
