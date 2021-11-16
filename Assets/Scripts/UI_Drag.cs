@@ -57,7 +57,9 @@ public class UI_Drag : MonoBehaviour
         
 
         ReelPoints = 0.0f;
-    	bobber.position = new Vector3(-3.82f,1.13f,-2.980f);
+    	//obber.position = new Vector3(-3.82f,1.13f,-2.980f);
+    	bobber.position = bobber.transform.parent.position;//new Vector3(-8.69f, 1.13f, -2.980f);
+    	bobber.position += new Vector3(-1.0f,1.0f,0.0f);
     	bobber.velocity = new Vector3(0.0f,0.0f,0.0f);
     	//coolDown = 3.0f;
     	fishCount++;
@@ -70,10 +72,11 @@ public class UI_Drag : MonoBehaviour
         switch (fishCount)
         {
             case 1:
-                Fish1.SetActive(true);
+                Fish1.SetActive(true);                
                 break;
             case 2:
                 Fish2.SetActive(true);
+
                 break;
             case 3:
                 BadFish1.SetActive(true);
@@ -81,7 +84,7 @@ public class UI_Drag : MonoBehaviour
             case 4:
                 BadFish2.SetActive(true);
                 break;
-            case 5:
+            case 5:            	
                 Rod.GetComponent<AudioSource>().Stop();
                 Jumpscare.SetActive(true);
                 // Jumpscare Audio Here
@@ -99,7 +102,6 @@ public class UI_Drag : MonoBehaviour
             coolDown -= Time.deltaTime;
             return;
         }
-
     	if (ReelPoints >= 1.0f || (fishCount == 4 && ReelPoints >= 0.70f))
     	{
     		CatchFish();
@@ -130,6 +132,10 @@ public class UI_Drag : MonoBehaviour
                 // Make sure there are no "cheesed" methods of reeling in
                 if (distancePrevCurr > 0f && distancePrevCurr < 40f)
                 {
+                	if (fishCount == 4 && ReelPoints > 0.3) 
+                	{
+                		distancePrevCurr *= 3;
+                	}
                     // Lower the float, higher the strength
                     ReelPoints += fishStrength * distancePrevCurr;
                 }
@@ -141,7 +147,7 @@ public class UI_Drag : MonoBehaviour
         timeThreshold += Time.deltaTime;
         if (timeThreshold > 0.1) {
             timeThreshold = 0;
-            ReelPoints -= .02f;
+            ReelPoints -= .02f * Time.deltaTime;
         }
 
         if (ReelPoints < 0) {
