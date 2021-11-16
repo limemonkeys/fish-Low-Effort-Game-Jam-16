@@ -23,7 +23,20 @@ public class UI_Drag : MonoBehaviour
     public float fillAmount = 0;
     public float timeThreshold = 0;
     public GameObject FillObj;
-    
+
+    public GameObject QTE;
+    public GameObject Wait4Fish;
+    public GameObject Flicker;
+    public GameObject ReelItIn;
+
+    public GameObject Fish1;
+    public GameObject Fish2;
+    public GameObject BadFish1;
+    public GameObject BadFish2;
+    public GameObject Jumpscare;
+
+    public GameObject Rod;
+    public GameObject Bobber;
 
     // Start is called before the first frame update
     void Start()
@@ -36,27 +49,58 @@ public class UI_Drag : MonoBehaviour
     }
     void CatchFish()
     {
-    	print("caught");
-    	ReelPoints = 0.0f;
+        QTE.SetActive(false);
+        Flicker.SetActive(false);
+        ReelItIn.SetActive(false);
+        Wait4Fish.SetActive(true);
+
+        
+
+        ReelPoints = 0.0f;
     	bobber.position = new Vector3(-3.82f,1.13f,-2.980f);
     	bobber.velocity = new Vector3(0.0f,0.0f,0.0f);
-    	coolDown = 3.0f;
+    	//coolDown = 3.0f;
     	fishCount++;
-    	print(fishCount + " Fishes caught!");
-    	if (fishCount == 3) {
-    		print("SHARK JUMPSCARE");
-    	}
+
+        if (fishCount < 5)
+        {
+            Bobber.GetComponent<AudioSource>().Play();
+        }
+
+        switch (fishCount)
+        {
+            case 1:
+                Fish1.SetActive(true);
+                break;
+            case 2:
+                Fish2.SetActive(true);
+                break;
+            case 3:
+                BadFish1.SetActive(true);
+                break;
+            case 4:
+                BadFish2.SetActive(true);
+                break;
+            case 5:
+                Rod.GetComponent<AudioSource>().Stop();
+                Jumpscare.SetActive(true);
+                // Jumpscare Audio Here
+                break;
+            default:
+                break;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-    	if (coolDown > 0.0f)
-    	{
-    		coolDown -= Time.deltaTime;
-    		return;
-    	}
-    	if (ReelPoints >= 1.0f)
+        if (coolDown > 0.0f)
+        {
+            coolDown -= Time.deltaTime;
+            return;
+        }
+
+    	if (ReelPoints >= 1.0f || (fishCount == 4 && ReelPoints >= 0.70f))
     	{
     		CatchFish();
     	}
